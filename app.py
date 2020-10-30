@@ -33,6 +33,9 @@ def engine():
 
 
 def main():
+    global ENABLE_SEND
+    global ENABLE_STREAMER
+    
     obj_detect = edgeiq.ObjectDetection("alwaysai/mobilenet_ssd")
     obj_detect.load(engine())
     # obj_detect.load(engine=edgeiq.Engine.DNN)
@@ -83,14 +86,15 @@ def main():
                 text.append("Frame width:{} height:{}".format(width, height))
 
                 # Send data to server
-                if ENABLE_SEND:
-                    payload = {"X": larget_prediction.box.center[0], 
-                                "Y":larget_prediction.box.center[1], 
-                                "W": width,
-                                "H": height}
-                    post.data(SERVER_URL,payload)
+                if ENABLE_SEND == True:
+                    if larget_prediction is not None:
+                        payload = {"X": larget_prediction.box.center[0], 
+                                    "Y":larget_prediction.box.center[1], 
+                                    "W": width,
+                                    "H": height}
+                        post.data(SERVER_URL,payload)
 
-                if ENABLE_STREAMER:
+                if ENABLE_STREAMER == True:
                     streamer.send_data(frame, text)
                     fps.update()
                     if streamer.check_exit():
