@@ -75,11 +75,11 @@ def main():
                                     results.predictions, ["person"])
 
                 largest_area = 0
-                larget_prediction = None
+                largest_prediction = None
                 for prediction in predictions:
                     if prediction.label == "person":
                         if prediction.box.area > largest_area:
-                            larget_prediction = prediction
+                            largest_prediction = prediction
                         text.append("{}: {:2.2f}%: center:{} area:{}".format(
                             prediction.label, prediction.confidence * 100, prediction.box.center, prediction.box.area))
                 
@@ -87,11 +87,14 @@ def main():
 
                 # Send data to server
                 if ENABLE_SEND == True:
-                    if larget_prediction is not None:
-                        payload = {"X": larget_prediction.box.center[0], 
-                                    "Y":larget_prediction.box.center[1], 
+                    if largest_prediction is not None:
+                        a = largest_prediction.box.area
+                        print(f'app.py: area: {a}')
+                        payload = {"X": largest_prediction.box.center[0], 
+                                    "Y":largest_prediction.box.center[1], 
                                     "W": width,
-                                    "H": height}
+                                    "H": height,
+                                    "A": str(a)}
                         post.data(SERVER_URL,payload)
 
                 if ENABLE_STREAMER == True:
