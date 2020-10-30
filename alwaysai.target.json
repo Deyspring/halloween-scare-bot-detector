@@ -1,0 +1,8 @@
+{
+  "targetProtocol": "ssh+docker:",
+  "targetHostname": "pi@raspberrypi.local",
+  "targetPath": "jason/halloween-eyes-detector",
+  "dockerImageId": "sha256:35baef133cdc2b7f7a2332881e4153fc54aea9297e998bb22f748cd428fa9952",
+  "targetHardware": "armv7hf",
+  "deviceId": "239d8409-4823-4cba-b94f-f2add9b8fad0"
+}
